@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <label for="username">
+            username :
+            <input type="text" id="username" name="username">
+        </label>
+        <br>
+        <label for="password">
+            password :
+            <input type="password" id="password" name="password">
+        </label>
+        <br>
+        <label for="profile">
+            profil :
+            <input type="file" name="profile" id="profile">
+        </label>
+        <br>
+        <input type="button" id="Register" value="Register">
+    </form>
+
+    <h1 id="response"></h1>
+
+    <script>
+        function doRegister() {
+            const ajax = new XMLHttpRequest();
+            ajax.open('POST', 'uploadFileAjax.php');
+            ajax.onload = function () {
+                const response = document.getElementById("response");
+                response.innerText = ajax.responseText;
+            }
+
+            const form = new FormData();
+            form.append("username", document.getElementById("username").value);
+            form.append("password", document.getElementById("password").value);
+
+            const file = document.getElementById("profile").files;
+            const firstFile = file.item(0);
+            form.append("profile", firstFile);
+
+            ajax.send(form);
+        }
+        document.getElementById("Register").onclick = doRegister;
+    </script>
+</body>
+
+</html>
